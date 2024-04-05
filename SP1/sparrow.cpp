@@ -17,9 +17,11 @@ namespace sparrow{
     }
     unsigned CountBits(std::vector<std::bitset<32>> bits){
       int count = 0;
-      for (int i = 0; i < 32; i++){
-	if(bits[i] ==1)
-	  count++;
+      for(std::bitset<32>& bit : bits){
+	for (int i = 0; i < 32; i++){
+	  if(bit[i] == 1)
+	    count++;
+	}
       }
       return count;
     }
@@ -27,12 +29,12 @@ namespace sparrow{
       if(a.size() != b.size())
 	return {std::vector<std::bitset<32>>(), false};
 
-      std::vector<std::bitset<32>> result;
+      std::vector<std::bitset<32>> toReturn;
 
       for(int i = 0; i < a.size(); i++)
-	result.push_back(a[i] & b[i]);
+	toReturn.push_back(a[i] & b[i]);
 
-      return {result, true};
+      return {toReturn, true};
     }
   }
 }
