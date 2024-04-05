@@ -15,7 +15,7 @@ namespace sparrow{
       }
       return count;
     }
-    unsigned CountBits(std::vector<std::bitset<32>> bits){
+    unsigned CountBits(std::vector<std::bitset<32>> bitsstd::vector<std::bitset<32>> bits){
       int count = 0;
       for (int i = 0; i < 32; i++){
 	if(bits[i] ==1)
