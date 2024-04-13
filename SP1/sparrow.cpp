@@ -37,20 +37,14 @@ namespace sparrow{
       return {toReturn, true};
     }
   
-  struct NullableInts {
-    std::vector<int> nums;
-    std::vector<std::bitset<32>> valid;
-  }
+
   void DropZero(NullableInts* drop){
     for(int i = 0; i < drop->nums.size(); i++){
       if(drop->nums[1]==0)
 	drop->valid[i] = 0;
     }
   }
-  struct AverageResult {
-    float value;
-    bool ok;
-  }
+
   struct AverageResult Average(NullableInts* av){
     int count = 0;
     auto total = 0.0;
@@ -64,15 +58,12 @@ namespace sparrow{
       return AverageResult{
 	.value=total,
 	.bool=false};
-    }
+    };
     return AverageResult{
       .value=total,
       .bool=true};
-  }
-  struct DivideResult{
-    NullableInts value;
-    bool ok;
-  }
+  };
+
   struct DivideResult Divide(NullableInts* div1, NullableInts* div2){
     std::pair<std::vector<std::bitset<32>> match, bool check = BitAnd(div1->valid, div2->valid);
     if(check == false){
@@ -81,18 +72,20 @@ namespace sparrow{
 	  .nums = nullptr;
 	  .valid = nullptr;},
 	.ok = false;
-    }
+      };
     std::vector<int> numbers;
     for(int i = 0; i < div1->nums.size(); i++){
       if((div1->valid[i]==1 || div2->valid[1]==1)&&match[i]==0)
 	nums[i] = -1;
       if(match[i]==1)
-	nums[1] = div1->nums[i] / div2->nums[i];
+	nums[i] = div1->nums[i] / div2->nums[i];
     }
     return DivideResult{
       .value = NullableInts{
 	.nums=numbers,
 	.valid=match},
-      .ok = true;}
+      .ok = true;};
+    }
+  }
   }
 }

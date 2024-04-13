@@ -3,10 +3,20 @@
 #include <vector>
 #include <iostream>
 
-int main(){
-  struct NullableInts nints1{.nums={20,999,40,60}, .valid=vector{bitset<32>{"00000000000000000000000000001101"}}};
-  struct NullableInts nints2{.nums={10,10,0,20}, .valid=vector{bitset<32>{"00000000000000000000000000001111"}}};
+using std::vector;
+using std::bitset;
 
-  struct DivideResult x = sparrow::Divide(&nints1, &nints2);
-  std::cout <<sparrow::Average(&DivideResult.value);
+int main(){
+  sparrow::NullableInts nints1{
+    .nums={20,999,40,60},
+    .valid=vector{bitset<32>{"00000000000000000000000000001101"}}
+  };
+  sparrow::NullableInts nints2{
+    .nums={10,10,0,20},
+    .valid=vector{bitset<32>{"00000000000000000000000000001111"}}
+  };
+
+  sparrow::DivideResult result = sparrow::Divide(&nints1, &nints2);
+  sparrow::AverageResult print = sparrow::Average(&result.nums);
+  std::cout << print.value;
 }
