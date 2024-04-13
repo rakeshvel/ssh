@@ -36,7 +36,7 @@ namespace sparrow{
 
       return {toReturn, true};
     }
-  }
+  
   struct NullableInts {
     std::vector<int> nums;
     std::vector<std::bitset<32>> valid;
@@ -51,7 +51,7 @@ namespace sparrow{
     float value;
     bool ok;
   }
-  AverageResult Average(NullableInts* av){
+  struct AverageResult Average(NullableInts* av){
     int count = 0;
     auto total = 0.0;
     for(int i = 0; i < av->nums.size(); i++){
@@ -73,7 +73,7 @@ namespace sparrow{
     NullableInts value;
     bool ok;
   }
-  DivideResult Divide(NullableInts* div1, NullableInts* div2){
+  struct DivideResult Divide(NullableInts* div1, NullableInts* div2){
     std::pair<std::vector<std::bitset<32>> match, bool check = BitAnd(div1->valid, div2->valid);
     if(check == false){
       return DivideResult{

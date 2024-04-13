@@ -10,16 +10,16 @@ namespace sparrow {
   struct NullableInts {
     std::vector<int> nums;
     std::vector<std::bitset<32>> valid;
-  }
+  };
   void DropZero(NullableInts* drop);
   struct AverageResult{
     float value;
     bool ok;
-  }
-  AverageResult Average(NullableInts* av);
+  };
+  struct AverageResult Average(NullableInts* av);
   struct DivideResult{
     NullableInts nums;
     bool ok;
-  }
-  DivideReulst Divide(NullableInts* div1, NullableInts* div2);
+  };
+  struct DivideResult Divide(NullableInts* div1, NullableInts* div2);
 }
