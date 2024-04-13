@@ -17,7 +17,7 @@ def run_and_check(cmd):
         raise Exception(f"This program exited with status code {result.returncode}: {cmd}")
 
 def cpp_test(name):
-    compiler = os.environ.get("CC", "g++")
+    compiler = os.environ.get("CC", "g++-13")
     run_and_check(f"{compiler} -L . -I . -std=c++20 {name}.cpp -lsparrow -o {name}")
     run_and_check(f"./{name}")
     return None
@@ -54,6 +54,79 @@ def test5_p1_program():
         return f"p1 is supposed to compute and print 5, but it printed {output}."
     return None
 
+def test6_struct():
+    return cpp_test("test6_struct")
+
+def test7_dropzero():
+    return cpp_test("test7_dropzero")
+
+def test8_average():
+    return cpp_test("test8_average")
+
+def test9_divide():
+    return cpp_test("test9_divide")
+    
+def test10_p2_program():
+    remove_if_exists("p2")
+    run_and_check("make p2")
+    assert exists("p2")
+
+    output = str(check_output("./p2"), "utf-8")
+    output = output.strip().split("\n")
+    if output[-1] != "2.5":
+        return f"p2 is supposed to compute and print 2.5 (as the last line), but it printed {output[-1]}."
+    return None
+
+def test11_ref():
+    return cpp_test("test11_ref")
+
+def test12_const():
+    return cpp_test("test12_const")
+
+def test13_parse():
+    return cpp_test("test13_parse")
+
+def test14_dblptr():
+    return cpp_test("test14_dblptr")
+
+def test15_p3_program():
+    with open("p3.cpp") as f:
+        code = f.read()
+        calls = [line for line in code.split(";") if "StrsToNullableInts" in line]
+    names = []
+    for call in calls:
+        parts = [p.strip() for p in call.split("//")[0].split("=")]
+        names.append(parts[0].split(" ")[-1].replace("*", "").strip())
+
+    for name in names:
+        target = f"delete {name}"
+        if not target in code:
+            return (f"Does {name} refer to heap memory?  Tester cannot find " +
+                    f"{repr(target)} in your code.  This is *probably* a bug.  " +
+                    "Either way, restructure your code so the tester can more easily " +
+                    "check for probable leaks.")
+
+    remove_if_exists("p3")
+    run_and_check("make p3")
+    assert exists("p3")
+
+    expectations = [
+        (["2", "3"], "2.5"),
+        (["2", "null", "3"], "2.5"),
+        (["null", "null"], "failed"),
+        ([], "failed"),
+        (["-5", "-9", "2", "4", "null"], "-2"),
+    ]
+
+    for args, expected in expectations:
+        cmd = ["./p3"] + args
+        cmdstr = ' '.join(cmd)
+        print("RUN:", cmdstr)
+        output = str(check_output(cmd), "utf-8")
+        output = output.strip().split("\n")
+        if output[-1] != expected:
+            return f"Command [{cmdstr}] is supposed to compute and print {expected} (as the last line), but it printed {output[-1]}."
+    return None
 
 def linter():
     for name in ["sparrow.h", "sparrow.cpp"]:
@@ -80,6 +153,8 @@ def main():
     print("Running tests...")
     tests = [
         test1_build, test2_bitcounter, test3_overload, test4_bit_and, test5_p1_program,
+        test6_struct, test7_dropzero, test8_average, test9_divide, test10_p2_program,
+        test11_ref, test12_const, test13_parse, test14_dblptr, test15_p3_program
     ]
 
     points = {}
