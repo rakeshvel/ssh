@@ -37,7 +37,7 @@ namespace sparrow{
       return {toReturn, true};
     }
   
-
+  }
   void DropZero(NullableInts* drop){
     for(int i = 0; i < drop->nums.size(); i++){
       if(drop->nums[i]==0)
@@ -62,25 +62,22 @@ namespace sparrow{
     return AverageResult{
       .value=total,
       .ok=true};
-  };
+  }
 
   struct DivideResult Divide(NullableInts* div1, NullableInts* div2){
-    auto [match, check] = BitAnd(div1->valid, div2->valid);
+    auto [match, check] = sparrow::warmup::BitAnd(div1->valid, div2->valid);
     if(check == false){
-      return DivideResult{
-	.value = {nullptr, nullptr}
-	.ok = false};
+
     }
     std::vector<int> numbers(div1->nums.size(), -1);
     for(int i = 0; i < div1->nums.size(); i++){
       if(((div1->valid[i]==1 || div2->valid[i]==1)&&match[i]==0)||div2->nums[i]==0)
-	nums[i] = -1;
+	numbers[i] = -1;
       if(match[i]==1)
-	nums[i] = div1->nums[i] / div2->nums[i];
+	numbers[i] = div1->nums[i] / div2->nums[i];
     }
     return DivideResult{
       .value = {numbers, match},
-      .ok = true};
-    }
+      .ok = check};
   }
 }

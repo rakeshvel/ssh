@@ -17,6 +17,6 @@ int main(){
   };
 
   sparrow::DivideResult result = sparrow::Divide(&nints1, &nints2);
-  sparrow::AverageResult print = sparrow::Average(&result.nums);
+  sparrow::AverageResult print = sparrow::Average(&result.value);
   std::cout << print.value;
 }

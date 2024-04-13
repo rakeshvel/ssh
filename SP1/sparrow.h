@@ -18,7 +18,7 @@ namespace sparrow {
   };
   struct AverageResult Average(NullableInts* av);
   struct DivideResult{
-    NullableInts nums;
+    NullableInts value;
     bool ok;
   };
   struct DivideResult Divide(NullableInts* div1, NullableInts* div2);
