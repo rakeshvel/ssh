@@ -90,34 +90,51 @@ namespace sparrow{
   }
 
   NullableInts* StrsToNullableInts(std::vector<std::string> inputs){
-    NullableInts* output;
+    NullableInts* output = new NullableInts();
+    output->nums.resize(inputs.size());
+    output->valid.resize((inputs.size() + 31) / 32);
+    
     for(int i = 0; i < inputs.size(); i++){
-      output->nums[i] = std::stoi(inputs[i]);
       if(inputs[i] == "null")
 	output->valid[i/32].set(i%32, false);
-      else
-	output->valid[i/32].set(i%32, true);
+      else{
+	bool val = true;
+        for (char c : inputs[i]) {
+	  if (!isdigit(c) && c!='-'){
+	    val = false;
+	    break;
+	  }
+	}
+	if (val) {
+	  output->nums[i] = std::stoi(inputs[i]);
+	  output->valid[i / 32].set(i % 32, true);
+	} else {
+	  output->valid[i / 32].set(i % 32, false);
+	}
+      }
     }
     return output;
   }
 
   int NullableIntsToArray(NullableInts& inputs, int** p){
     int count = 0;
-    int temp[inputs.valid.size()];
     
-    for(int i = 0; i < inputs.valid.size(); i++){
+    for(int i = 0; i < inputs.nums.size(); i++){
       if(inputs.valid[i/32][i%32]){
-	temp[count] = inputs.nums[i];
 	count++;
       }
     }
-    int arr[count];
+
+    *p = new int[count];
     int count2 = 0;
-    for(auto i : temp){
-      arr[count2] = i;
-      count2++;
+
+    for (int i = 0; i < inputs.nums.size(); i++) {
+      if(inputs.valid[i/32][i%32]){
+	*p[count2] = inputs.nums[i];
+	count2++;
+      }
     }
-    *p = arr;
+    
     return count;
   }
 }

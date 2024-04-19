@@ -24,5 +24,5 @@ namespace sparrow {
   };
   struct DivideResult Divide(NullableInts* div1, NullableInts* div2);
   NullableInts* StrsToNullableInts(std::vector<std::string> inputs);
-  int NullableIntsToArray(NullableInts inputs, int** p);
+  int NullableIntsToArray(NullableInts& inputs, int** p);
 }
