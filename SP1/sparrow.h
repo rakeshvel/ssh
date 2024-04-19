@@ -16,10 +16,13 @@ namespace sparrow {
     float value;
     bool ok;
   };
-  struct AverageResult Average(NullableInts* av);
+  struct AverageResult Average(const NullableInts* av);
+  struct AverageResult Average(const NullableInts& av);
   struct DivideResult{
     NullableInts value;
     bool ok;
   };
   struct DivideResult Divide(NullableInts* div1, NullableInts* div2);
+  NullableInts* StrsToNullableInts(std::vector<std::string> inputs);
+  int NullableIntsToArray(NullableInts inputs, int** p);
 }

@@ -45,7 +45,9 @@ namespace sparrow{
     }
   }
 
-  struct AverageResult Average(NullableInts* av){
+  struct AverageResult Average(const NullableInts* av){
+    if(av == nullptr)
+      return {0, false};
     int count = 0;
     float total = 0.0;
     for(int i = 0; i < av->nums.size(); i++){
@@ -62,6 +64,10 @@ namespace sparrow{
     return AverageResult{
       .value=total/count,
       .ok=true};
+  }
+
+  struct AverageResult Average(const NullableInts& av){
+    return Average(&av);
   }
 
   struct DivideResult Divide(NullableInts* div1, NullableInts* div2){
@@ -81,5 +87,37 @@ namespace sparrow{
     return DivideResult{
       .value = output,
       .ok = true};
+  }
+
+  NullableInts* StrsToNullableInts(std::vector<std::string> inputs){
+    NullableInts* output;
+    for(int i = 0; i < inputs.size(); i++){
+      output->nums[i] = std::stoi(inputs[i]);
+      if(inputs[i] == "null")
+	output->valid[i/32].set(i%32, false);
+      else
+	output->valid[i/32].set(i%32, true);
+    }
+    return output;
+  }
+
+  int NullableIntsToArray(NullableInts& inputs, int** p){
+    int count = 0;
+    int temp[inputs.valid.size()];
+    
+    for(int i = 0; i < inputs.valid.size(); i++){
+      if(inputs.valid[i/32][i%32]){
+	temp[count] = inputs.nums[i];
+	count++;
+      }
+    }
+    int arr[count];
+    int count2 = 0;
+    for(auto i : temp){
+      arr[count2] = i;
+      count2++;
+    }
+    *p = arr;
+    return count;
   }
 }

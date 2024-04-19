@@ -154,8 +154,7 @@ def main():
     tests = [
         test1_build, test2_bitcounter, test3_overload, test4_bit_and, test5_p1_program,
         test6_struct, test7_dropzero, test8_average, test9_divide, test10_p2_program,
-       ]# test11_ref, test12_const, test13_parse, test14_dblptr, test15_p3_program
-   # ]
+        test11_ref, test12_const, test13_parse, test14_dblptr, test15_p3_program]
 
     points = {}
     for test_fn in tests:

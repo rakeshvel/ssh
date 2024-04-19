@@ -8,5 +8,10 @@
   "test7_dropzero": 4,
   "test8_average": 4,
   "test9_divide": 4,
-  "test10_p2_program": 4
+  "test10_p2_program": 4,
+  "test11_ref": 4,
+  "test12_const": 4,
+  "test13_parse": 0,
+  "test14_dblptr": 0,
+  "test15_p3_program": 0
 }

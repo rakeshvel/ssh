@@ -10,6 +10,12 @@ p2: p2.o libsparrow.so
 p2.o: p2.cpp sparrow.h
 	g++ -c p2.cpp
 
+p3: p3.o libsparrow.so
+	g++ p3.o -lsparrow -L. -o p3
+
+p3.o: p3.cpp sparrow.h
+	g++ -c p3.cpp
+
 libsparrow.so: sparrow.o
 	g++ sparrow.o -shared -o libsparrow.so
 
