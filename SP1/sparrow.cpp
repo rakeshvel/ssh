@@ -130,7 +130,7 @@ namespace sparrow{
 
     for (int i = 0; i < inputs.nums.size(); i++) {
       if(inputs.valid[i/32][i%32]){
-	*p[count2] = inputs.nums[i];
+	(*p)[count2] = inputs.nums[i];
 	count2++;
       }
     }
