@@ -17,7 +17,7 @@ def run_and_check(cmd):
         raise Exception(f"This program exited with status code {result.returncode}: {cmd}")
 
 def cpp_test(name):
-    compiler = os.environ.get("CC", "g++-11")
+    compiler = os.environ.get("CC", "g++-13")
     run_and_check(f"{compiler} -L . -I . -std=c++20 {name}.cpp -lsparrow -o {name}")
     run_and_check(f"./{name}")
     return None
@@ -128,6 +128,68 @@ def test15_p3_program():
             return f"Command [{cmdstr}] is supposed to compute and print {expected} (as the last line), but it printed {output[-1]}."
     return None
 
+def test16_constructor():
+    return cpp_test("test16_constructor")
+
+def test17_cout():
+    return cpp_test("test17_cout")
+
+def test18_methods():
+    return cpp_test("test18_methods")
+
+def test19_indexing():
+    return cpp_test("test19_indexing")
+
+def test20_p4_program():
+    remove_if_exists("p4")
+    run_and_check("make p4")
+    assert exists("p4")
+
+    cmd = ["./p4"]
+    print("RUN:", " ".join(cmd))
+    lines = str(check_output(cmd), "utf-8").strip().split("\n")
+    expected = ["IntColumn:", "Avg: failed"]
+    if lines != expected:
+        return f"Got back lines {lines} but expected {expected}."
+
+    cmd = ["./p4", "1", "2", "3"]
+    print("RUN:", " ".join(cmd))
+    lines = str(check_output(cmd), "utf-8").strip().split("\n")
+    expected = ["IntColumn:", "1", "2", "3", "Avg: 2"]
+    if lines != expected:
+        return f"Got back lines {lines} but expected {expected}."
+
+    cmd = ["./p4", "1", "2", "null"]
+    print("RUN:", " ".join(cmd))
+    lines = str(check_output(cmd), "utf-8").strip().split("\n")
+    expected = ["IntColumn:", "1", "2", "null", "Avg: 1.5"]
+    if lines != expected:
+        return f"Got back lines {lines} but expected {expected}."
+
+    cmd = ["./p4", "null", "null", "null"]
+    print("RUN:", " ".join(cmd))
+    lines = str(check_output(cmd), "utf-8").strip().split("\n")
+    expected = ["IntColumn:", "null", "null", "null", "Avg: failed"]
+    if lines != expected:
+        return f"Got back lines {lines} but expected {expected}."
+
+    return None
+
+def test21_destructor():
+    return cpp_test("test21_destructor")
+
+def test22_cp_constructor():
+    return cpp_test("test22_cp_constructor")
+
+def test23_cp_assignment():
+    return cpp_test("test23_cp_assignment")
+
+def test24_mv_constructor():
+    return cpp_test("test24_mv_constructor")
+
+def test25_mv_assignment():
+    return cpp_test("test25_mv_assignment")
+
 def linter():
     for name in ["sparrow.h", "sparrow.cpp"]:
         with open(name) as f:
@@ -154,7 +216,11 @@ def main():
     tests = [
         test1_build, test2_bitcounter, test3_overload, test4_bit_and, test5_p1_program,
         test6_struct, test7_dropzero, test8_average, test9_divide, test10_p2_program,
-        test11_ref, test12_const, test13_parse, test14_dblptr, test15_p3_program]
+        test11_ref, test12_const, test13_parse, test14_dblptr, test15_p3_program,
+        test16_constructor, test17_cout, test18_methods, test19_indexing, test20_p4_program,
+        test21_destructor, test22_cp_constructor, test23_cp_assignment,
+        test24_mv_constructor, test25_mv_assignment
+    ]
 
     points = {}
     for test_fn in tests:
