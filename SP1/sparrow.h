@@ -25,4 +25,17 @@ namespace sparrow {
   struct DivideResult Divide(NullableInts* div1, NullableInts* div2);
   NullableInts* StrsToNullableInts(std::vector<std::string> inputs);
   int NullableIntsToArray(NullableInts& inputs, int** p);
+  class IntColumn {
+  private:
+    std::vector<int> nums;
+    std::vector<std::bitset<32>> valid;
+  public:
+    IntColumn();
+    IntColumn(std::vector<std::string> inputs);
+    void DropZero();
+    AverageResult Average();
+    IntColumn operator/(const IntColumn& other);
+    int Size();
+    const int* operator[](int idx);
+};
 }

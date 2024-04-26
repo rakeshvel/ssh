@@ -137,4 +137,85 @@ namespace sparrow{
     
     return count;
   }
+  
+  IntColumn::IntColumn(){
+
+  }
+
+  IntColumn::IntColumn(std::vector<std::string> inputs){
+    nums.resize(inputs.size());
+    valid.resize((inputs.size() + 31) / 32);
+
+    for (int i = 0; i < inputs.size(); i++) {
+      if (inputs[i] == "null") {
+	  valid[i / 32].set(i % 32, false);
+        } else {
+	  nums[i] = std::stoi(inputs[i]);
+	  valid[i / 32].set(i % 32, true);
+	}
+    }
+  }
+
+  void IntColumn::DropZero(){
+    for (int i = 0; i < nums.size(); i++) {
+      if (nums[i] == 0)
+	  valid[i / 32].set(i % 32, false);
+    }
+  }
+
+  AverageResult IntColumn::Average(){
+    int count = 0;
+    float total = 0.0;
+
+    for(int i = 0; i < nums.size(); i++){
+      if(valid[i/32][i%32]){
+        count++;
+        total+=nums[i];
+      }
+    }
+
+    if(count == 0){
+      return AverageResult{
+        .value=0,
+        .ok=false};
+    };
+
+    return AverageResult{
+      .value=total/count,
+      .ok=true};
+  }
+
+  IntColumn IntColumn::operator/(const IntColumn& other){
+    IntColumn toReturn;
+    toReturn.nums.resize(nums.size());
+    toReturn.valid.resize(valid.size());
+
+    for (int i = 0; i < nums.size(); i++) {
+      if (valid[i / 32][i % 32] && other.valid[i / 32][i % 32] && other.nums[i] != 0) {
+	toReturn.nums[i] = nums[i] / other.nums[i];
+	toReturn.valid[i / 32].set(i % 32, true);
+      } else {
+	toReturn.valid[i / 32].set(i % 32, false);
+      }
+    }
+
+    return toReturn;
+  }
+
+  int IntColumn::Size(){
+    return nums.size();
+  }
+
+  const int* IntColumn::operator[](int idx) const {
+    if(idx < 0)
+      idx = nums.size() + idx;
+
+    if (!valid[idx / 32][idx % 32]) {
+      return nullptr;
+    }
+    
+    return &nums[idx];
+  }
 }
+
+
