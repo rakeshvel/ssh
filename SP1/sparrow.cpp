@@ -128,7 +128,7 @@ namespace sparrow{
     *p = new int[count];
     int count2 = 0;
 
-    for (int i = 0; i < inputs.nums.size(); i++) {
+    for(int i = 0; i < inputs.nums.size(); i++) {
       if(inputs.valid[i/32][i%32]){
 	(*p)[count2] = inputs.nums[i];
 	count2++;
@@ -146,20 +146,20 @@ namespace sparrow{
     nums.resize(inputs.size());
     valid.resize((inputs.size() + 31) / 32);
 
-    for (int i = 0; i < inputs.size(); i++) {
-      if (inputs[i] == "null") {
-	  valid[i / 32].set(i % 32, false);
-        } else {
-	  nums[i] = std::stoi(inputs[i]);
-	  valid[i / 32].set(i % 32, true);
-	}
+    for(int i = 0; i < inputs.size(); i++) {
+      if(inputs[i] == "null") {
+	valid[i / 32].set(i % 32, false);
+      } else {
+	nums[i] = std::stoi(inputs[i]);
+	valid[i / 32].set(i % 32, true);
+      }
     }
   }
 
   void IntColumn::DropZero(){
-    for (int i = 0; i < nums.size(); i++) {
-      if (nums[i] == 0)
-	  valid[i / 32].set(i % 32, false);
+    for(int i = 0; i < nums.size(); i++) {
+      if(nums[i] == 0)
+	valid[i / 32].set(i % 32, false);
     }
   }
 
@@ -190,8 +190,8 @@ namespace sparrow{
     toReturn.nums.resize(nums.size());
     toReturn.valid.resize(valid.size());
 
-    for (int i = 0; i < nums.size(); i++) {
-      if (valid[i / 32][i % 32] && other.valid[i / 32][i % 32] && other.nums[i] != 0) {
+    for(int i = 0; i < nums.size(); i++) {
+      if(valid[i / 32][i % 32] && other.valid[i / 32][i % 32] && other.nums[i] != 0) {
 	toReturn.nums[i] = nums[i] / other.nums[i];
 	toReturn.valid[i / 32].set(i % 32, true);
       } else {
@@ -206,15 +206,27 @@ namespace sparrow{
     return nums.size();
   }
 
-  const int* IntColumn::operator[](int idx) const {
+  const int* IntColumn::operator[](int idx){
     if(idx < 0)
       idx = nums.size() + idx;
-
-    if (!valid[idx / 32][idx % 32]) {
+    
+    if(!valid[idx / 32][idx % 32]) {
       return nullptr;
     }
     
     return &nums[idx];
+  }
+
+  std::ostream& operator<<(std::ostream& os, const IntColumn &obj){
+    os << "IntColumn: ";
+    for(int i = 0; i < obj.nums.size(); i++){
+      if(obj.valid[idx / 32][idx % 32]){
+	os << obj.nums[i];
+      } else {
+	os << "null";
+      }
+    }
+    return os;
   }
 }
 

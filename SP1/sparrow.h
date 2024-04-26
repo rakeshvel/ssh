@@ -37,5 +37,6 @@ namespace sparrow {
     IntColumn operator/(const IntColumn& other);
     int Size();
     const int* operator[](int idx);
-};
+    std::ostream& operator<<(std::ostream& os, const IntColumn &obj);
+  };
 }
