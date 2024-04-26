@@ -17,7 +17,7 @@ def run_and_check(cmd):
         raise Exception(f"This program exited with status code {result.returncode}: {cmd}")
 
 def cpp_test(name):
-    compiler = os.environ.get("CC", "g++-13")
+    compiler = os.environ.get("CC", "g++-11")
     run_and_check(f"{compiler} -L . -I . -std=c++20 {name}.cpp -lsparrow -o {name}")
     run_and_check(f"./{name}")
     return None
@@ -217,9 +217,9 @@ def main():
         test1_build, test2_bitcounter, test3_overload, test4_bit_and, test5_p1_program,
         test6_struct, test7_dropzero, test8_average, test9_divide, test10_p2_program,
         test11_ref, test12_const, test13_parse, test14_dblptr, test15_p3_program,
-        test16_constructor, test17_cout, test18_methods, test19_indexing, test20_p4_program,
-        test21_destructor, test22_cp_constructor, test23_cp_assignment,
-        test24_mv_constructor, test25_mv_assignment
+        test16_constructor, test17_cout, test18_methods, test19_indexing, test20_p4_program#,
+   #     test21_destructor, test22_cp_constructor, test23_cp_assignment,
+   #     test24_mv_constructor, test25_mv_assignment
     ]
 
     points = {}

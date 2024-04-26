@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include "sparrow.h"
 
 namespace sparrow{
@@ -148,10 +149,10 @@ namespace sparrow{
 
     for(int i = 0; i < inputs.size(); i++) {
       if(inputs[i] == "null") {
-	valid[i / 32].set(i % 32, false);
+	valid[i/32].set(i%32, false);
       } else {
 	nums[i] = std::stoi(inputs[i]);
-	valid[i / 32].set(i % 32, true);
+	valid[i/32].set(i%32, true);
       }
     }
   }
@@ -159,7 +160,7 @@ namespace sparrow{
   void IntColumn::DropZero(){
     for(int i = 0; i < nums.size(); i++) {
       if(nums[i] == 0)
-	valid[i / 32].set(i % 32, false);
+	valid[i/32].set(i%32, false);
     }
   }
 
@@ -191,11 +192,11 @@ namespace sparrow{
     toReturn.valid.resize(valid.size());
 
     for(int i = 0; i < nums.size(); i++) {
-      if(valid[i / 32][i % 32] && other.valid[i / 32][i % 32] && other.nums[i] != 0) {
-	toReturn.nums[i] = nums[i] / other.nums[i];
-	toReturn.valid[i / 32].set(i % 32, true);
+      if(valid[i/32][i%32] && other.valid[i/32][i%32]){
+	toReturn.nums[i] = nums[i]/other.nums[i];
+	toReturn.valid[i/32].set(i%32, true);
       } else {
-	toReturn.valid[i / 32].set(i % 32, false);
+	toReturn.valid[i/32].set(i%32, false);
       }
     }
 
@@ -207,10 +208,10 @@ namespace sparrow{
   }
 
   const int* IntColumn::operator[](int idx){
-    if(idx < 0)
+    if(idx<0)
       idx = nums.size() + idx;
     
-    if(!valid[idx / 32][idx % 32]) {
+    if(!valid[idx/32][idx%32]) {
       return nullptr;
     }
     
@@ -218,14 +219,16 @@ namespace sparrow{
   }
 
   std::ostream& operator<<(std::ostream& os, const IntColumn &obj){
-    os << "IntColumn: ";
+    os << "IntColumn:\n";
+
     for(int i = 0; i < obj.nums.size(); i++){
-      if(obj.valid[idx / 32][idx % 32]){
-	os << obj.nums[i];
+      if(obj.valid[i/32][i%32]){
+	os << obj.nums[i] << "\n";
       } else {
-	os << "null";
+	os << "null\n";
       }
     }
+
     return os;
   }
 }

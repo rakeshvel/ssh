@@ -1,5 +1,6 @@
 #include <bitset>
 #include<vector>
+#include <iostream>
 
 namespace sparrow {
   namespace warmup{
@@ -37,6 +38,6 @@ namespace sparrow {
     IntColumn operator/(const IntColumn& other);
     int Size();
     const int* operator[](int idx);
-    std::ostream& operator<<(std::ostream& os, const IntColumn &obj);
+    friend std::ostream& operator<<(std::ostream& os, const IntColumn &obj);
   };
 }

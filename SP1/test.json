@@ -13,5 +13,10 @@
   "test12_const": 4,
   "test13_parse": 4,
   "test14_dblptr": 4,
-  "test15_p3_program": 4
+  "test15_p3_program": 4,
+  "test16_constructor": 4,
+  "test17_cout": 4,
+  "test18_methods": 4,
+  "test19_indexing": 4,
+  "test20_p4_program": 4
 }

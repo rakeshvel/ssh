@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
   
   sparrow::AverageResult toPrint = p4.Average();
   if (!toPrint.ok) {
-    std::cout << "Avg:: failed";
+    std::cout << "Avg: failed";
   } else {
     std::cout << "Avg: " << toPrint.value;
   }
